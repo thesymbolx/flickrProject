@@ -13,6 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "MyApplication"
-include ':app'
-include ':core:ui'
-include ':build-logic:convention'
+include(":app", ":core:ui", ":build-logic:convention")
