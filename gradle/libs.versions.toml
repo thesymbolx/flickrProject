@@ -12,6 +12,9 @@ junit4 = "4.13.2"
 ksp = "1.8.20-1.0.11"
 kotlinBom = "1.8.0"
 kotlin = "1.8.20"
+moshiKotlin = "1.14.0"
+okhttp = "4.10.0"
+retrofit = "2.9.0"
 lifecycleRuntimeKtx = "2.3.1"
 
 [libraries]
@@ -31,6 +34,10 @@ androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espres
 dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHilt" }
 dagger-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "daggerHilt" }
 kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlinBom" }
+moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshiKotlin" }
+okhttp = {group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp"}
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 androidx-test-junit = { group = "androidx:junit:ext", name = "junit", version.ref = "androidXJunit" }
 
@@ -40,7 +47,9 @@ kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-pl
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
 
-
 [plugins]
 hilt = {id = "com.google.dagger.hilt.android", version.ref = "daggerHilt"}
+
+[bundles]
+network = ["moshi-kotlin", "okhttp", "retrofit", "retrofit-converter-moshi"]
 
