@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "JobApplication"
 include(":app", ":core:ui")
 include(":core:network")
+include(":feature:photos")

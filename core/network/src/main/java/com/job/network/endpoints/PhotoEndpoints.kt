@@ -5,9 +5,6 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface PhotoEndpoints {
-
-    @GET
-    suspend fun getPopularPhotos(
-    ) : Response<PopularPhotosResponse>
-
+    @GET("flickr.photos.getPopular")
+    suspend fun getPopularPhotos(): Response<PopularPhotosResponse>
 }

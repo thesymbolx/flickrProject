@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.job.network"
+    namespace = "com.job.photos"
     compileSdk = 33
 
     defaultConfig {
@@ -33,15 +33,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
-    }
 }
 
 dependencies {
+    implementation(project(":core:network"))
+    implementation(project(":core:ui"))
+
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.kotlin.bom))
     implementation(libs.androidx.lifecycle.ktx)
