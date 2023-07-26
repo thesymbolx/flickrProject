@@ -12,5 +12,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "MyApplication"
-include(":app", ":core:ui", ":build-logic:convention")
+rootProject.name = "JobApplication"
+include(":app", ":core:ui")
+include(":core:network")
