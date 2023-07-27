@@ -33,6 +33,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.3.2"
+    }
 }
 
 dependencies {
@@ -49,7 +55,10 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.dagger.hilt.navigation.compose)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.glide.compose)
+    implementation(libs.coil.compose)
 
     //Dagger Hilt
     implementation(libs.dagger.hilt)

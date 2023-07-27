@@ -40,6 +40,7 @@ class ApiModule {
             val url = originalHttpUrl.newBuilder()
                 .addQueryParameter("api_key", FLICKR_KEY)
                 .addQueryParameter("format", "json")
+                .addQueryParameter("nojsoncallback", "?")
                 .build()
 
             val requestBuilder: Request.Builder = original.newBuilder()
@@ -57,6 +58,6 @@ class ApiModule {
         Retrofit.Builder()
             .baseUrl(FLICKR_ENDPOINT_URL)
             .client(okHttp)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(MoshiConverterFactory.create(moshi).asLenient())
             .build()
 }

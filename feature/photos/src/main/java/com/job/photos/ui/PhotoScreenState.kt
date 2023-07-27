@@ -1,5 +1,11 @@
 package com.job.photos.ui
 
 data class PhotoScreenState(
-    val json: String
+    val photos: List<Photo>
+) {
+    constructor() : this(emptyList())
+}
+
+data class Photo(
+    val url: String
 )

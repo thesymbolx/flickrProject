@@ -9,5 +9,5 @@ class PhotoRepo @Inject constructor(
 ) {
 
     suspend fun getPopularPhotos() =
-        photoEndpoints.getPopularPhotos().getNetworkResource()
+        photoEndpoints.getRecentPhotos().getNetworkResource()
 }
