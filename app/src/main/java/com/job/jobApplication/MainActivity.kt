@@ -13,7 +13,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource   
+import androidx.compose.ui.res.stringResource
 import com.job.photos.ui.PhotoScreen
 import com.job.ui.theme.DarkLateGray
 import com.job.ui.theme.Grayscale
