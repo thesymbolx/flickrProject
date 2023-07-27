@@ -1,12 +1,12 @@
-package com.job.photos
+package com.job.photos.photoSearch
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.job.network.Resource
 import com.job.network.models.Photo
+import javax.inject.Inject
 
-class PhotoDataSource(
+class PhotoDataSource @Inject constructor(
     private val photoRepo: PhotoRepo
 ) : PagingSource<Int, Photo>() {
     override fun getRefreshKey(state: PagingState<Int, Photo>): Int? {

@@ -1,5 +1,6 @@
 package com.job.network.di
 
+import com.job.network.endpoints.PeopleEndpoints
 import com.job.network.endpoints.PhotoEndpoints
 import dagger.Module
 import dagger.Provides
@@ -14,4 +15,9 @@ object ServiceModule {
     fun providePhotoServices(
         retrofit: Retrofit
     ) : PhotoEndpoints = retrofit.create(PhotoEndpoints::class.java)
+
+    @Provides
+    fun providePeopleServices(
+        retrofit: Retrofit
+    ) : PeopleEndpoints = retrofit.create(PeopleEndpoints::class.java)
 }

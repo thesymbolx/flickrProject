@@ -1,4 +1,4 @@
-package com.job.photos.ui
+package com.job.photos.photoSearch.ui
 
 
 import androidx.compose.animation.animateContentSize
@@ -6,6 +6,7 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,22 +38,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
-import com.job.photos.PhotoVM
+import com.job.photos.photoSearch.PhotoVM
 import com.job.photos.R
 import com.job.ui.theme.DarkLateGray
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.job.network.models.Photo
+import com.job.photos.utils.getPhotoUrl
+import com.job.ui.theme.composables.ErrorDialog
 
 
 @Composable
-fun PhotoScreen(photoVM: PhotoVM = viewModel()) {
+fun PhotoSearchScreen(photoVM: PhotoVM, findNavController: NavController) {
     val items: LazyPagingItems<Photo> = photoVM.photos.collectAsLazyPagingItems()
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -66,12 +69,17 @@ fun PhotoScreen(photoVM: PhotoVM = viewModel()) {
             items.loadState.append is LoadState.Error -> ErrorDialog()
         }
     }
-    PhotoScreen(items)
+    PhotoSearchScreen(items) { photoID ->
+        findNavController.navigate("userPhoto/$photoID")
+    }
 }
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun PhotoScreen(photos: LazyPagingItems<Photo>) {
+fun PhotoSearchScreen(
+    photos: LazyPagingItems<Photo>,
+    imageClick: (String) -> Unit
+) {
     var showInfo by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -88,8 +96,8 @@ fun PhotoScreen(photos: LazyPagingItems<Photo>) {
                 
                 if (photo != null) {
                     ExpandableInfoPhoto(
-                        url = stringResource(
-                            id = R.string.photoUrl,
+                        imageId = photo.id,
+                        url = getPhotoUrl(
                             photo.server,
                             photo.id,
                             photo.secret
@@ -106,7 +114,8 @@ fun PhotoScreen(photos: LazyPagingItems<Photo>) {
                             )
                         } else {
                             stringResource(id = R.string.noBuddyIcon)
-                        }
+                        },
+                        imageClick = imageClick
                     )
                 }
             }
@@ -126,11 +135,13 @@ fun PhotoScreen(photos: LazyPagingItems<Photo>) {
 
 @Composable
 fun ExpandableInfoPhoto(
+    imageId: String,
     url: String,
     userIconUrl: String,
     expanded: Boolean,
     ownerName: String,
-    tags: String
+    tags: String,
+    imageClick: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -162,7 +173,9 @@ fun ExpandableInfoPhoto(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
+                .wrapContentHeight().clickable {
+                    imageClick(imageId)
+                }
         )
 
         if (expanded) {
@@ -200,30 +213,4 @@ fun ExpandableInfoPhoto(
             }
         }
     }
-}
-
-@Composable
-fun ErrorDialog() {
-    val openDialog = remember { mutableStateOf(false)  }
-
-    AlertDialog(
-        onDismissRequest = {
-            openDialog.value = false
-        },
-        title = {
-            Text(text = stringResource(id = R.string.errorDialogTitle))
-        },
-        text = {
-            Text(stringResource(id = R.string.errorDialogMessage))
-        },
-        confirmButton = {
-            Button(
-
-                onClick = {
-                    openDialog.value = false
-                }) {
-                Text(stringResource(id = R.string.ok))
-            }
-        }
-    )
 }

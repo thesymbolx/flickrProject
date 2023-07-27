@@ -1,4 +1,4 @@
-package com.job.photos
+package com.job.photos.photoSearch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,9 +12,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PhotoVM @Inject constructor(
-    private val photoRepo: PhotoRepo
+    private val photoDataSource: PhotoDataSource
 ) : ViewModel() {
     val photos: Flow<PagingData<com.job.network.models.Photo>> = Pager(PagingConfig(pageSize = 250)) {
-        PhotoDataSource(photoRepo)
+        photoDataSource
     }.flow.cachedIn(viewModelScope)
 }

@@ -1,4 +1,4 @@
-package com.job.photos
+package com.job.photos.photoSearch
 
 import com.job.network.endpoints.PhotoEndpoints
 import com.job.network.getNetworkResource
@@ -8,13 +8,11 @@ class PhotoRepo @Inject constructor(
     private val photoEndpoints: PhotoEndpoints
 ) {
 
-    suspend fun getPopularPhotos(
-        pageNo: Int,
-        perPage: Int
+    suspend fun getPhotoInfo(
+        photoId: String
     ) =
-        photoEndpoints.getRecentPhotos(
-            pageNo = pageNo,
-            perPage = perPage
+        photoEndpoints.getPhotoInfo(
+            photoId = photoId
         ).getNetworkResource()
 
     suspend fun getPhotos(
