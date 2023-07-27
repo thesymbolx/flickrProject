@@ -1,6 +1,5 @@
 package com.job.photos
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -30,7 +29,7 @@ class PhotoVM @Inject constructor(
             is Resource.Error -> photoScreenState.copy(photos = emptyList())
             is Resource.Success -> photoScreenState.copy(photos = result.data.photos.photo.map {
                 val buddyIconUrl = if(it.iconServer > 0) {
-                    "http://farm${it.iconFarm}.staticflickr.com/${it.iconServer}/buddyicons/${it.owner}.jpg"
+                   "https://farm${it.iconFarm}.staticflickr.com/${it.iconServer}/buddyicons/${it.owner}.jpg"
                 } else {
                     "https://www.flickr.com/images/buddyicon.gif"
                 }
@@ -45,4 +44,6 @@ class PhotoVM @Inject constructor(
             })
         }
     }
+
+
 }
