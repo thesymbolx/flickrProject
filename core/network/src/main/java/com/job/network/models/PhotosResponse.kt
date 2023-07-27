@@ -19,5 +19,12 @@ data class Photo(
     val owner: String,
     val secret: String,
     val title: String,
-    val server: String
+    val server: String,
+    @Json(name = "iconserver")
+    val iconServer: Int,
+    @Json(name = "iconfarm")
+    val iconFarm: String,
+    @Json(name = "ownername")
+    val ownerName: String,
+    val tags: String
 )

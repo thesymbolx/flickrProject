@@ -7,5 +7,9 @@ data class PhotoScreenState(
 }
 
 data class Photo(
-    val url: String
+    val key: String,
+    val url: String,
+    val ownerName: String,
+    val tags: String,
+    val userIconUrl: String
 )
