@@ -8,6 +8,12 @@ class PhotoRepo @Inject constructor(
     private val photoEndpoints: PhotoEndpoints
 ) {
 
-    suspend fun getPopularPhotos() =
-        photoEndpoints.getRecentPhotos().getNetworkResource()
+    suspend fun getPopularPhotos(
+        pageNo: Int,
+        perPage: Int
+    ) =
+        photoEndpoints.getRecentPhotos(
+            pageNo = pageNo,
+            perPage = perPage
+        ).getNetworkResource()
 }

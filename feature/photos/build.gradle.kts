@@ -65,6 +65,9 @@ dependencies {
     kapt(libs.dagger.compiler)
 
     implementation(libs.bundles.network)
+    implementation(libs.bundles.paging)
+
+    implementation("androidx.paging:paging-compose:3.2.0")
 
     testImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.test.junit)

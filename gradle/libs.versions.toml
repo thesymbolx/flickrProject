@@ -17,6 +17,8 @@ kotlinBom = "1.8.0"
 kotlin = "1.8.20"
 moshiKotlin = "1.14.0"
 okhttp = "4.10.0"
+paging = "3.1.1"
+pagingCompose = "3.2.0"
 retrofit = "2.9.0"
 lifecycleRuntimeKtx = "2.3.1"
 
@@ -42,6 +44,8 @@ kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref 
 glide-compose = {group = "com.github.bumptech.glide", name = "compose", version.ref = "glideCompose"}
 moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshiKotlin" }
 okhttp = {group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp"}
+paging-runtime = {group = "androidx.paging", name = "paging-runtime", version.ref = "paging"}
+paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "pagingCompose" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
@@ -58,4 +62,5 @@ hilt = {id = "com.google.dagger.hilt.android", version.ref = "daggerHilt"}
 
 [bundles]
 network = ["moshi-kotlin", "okhttp", "retrofit", "retrofit-converter-moshi"]
+paging = ["paging-runtime", "paging-compose"]
 

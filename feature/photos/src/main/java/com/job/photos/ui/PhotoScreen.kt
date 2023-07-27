@@ -6,7 +6,6 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,9 +16,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,40 +33,82 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.job.photos.PhotoVM
 import com.job.photos.R
 import com.job.ui.theme.DarkLateGray
-import com.job.ui.theme.Grayscale
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
+import com.job.network.models.Photo
+
 
 @Composable
 fun PhotoScreen(photoVM: PhotoVM = viewModel()) {
-    PhotoScreen(photoVM.photoScreenState)
+    val items: LazyPagingItems<Photo> = photoVM.photos.collectAsLazyPagingItems()
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        when {
+            items.loadState.refresh is LoadState.Loading -> {
+                CircularProgressIndicator(modifier = Modifier
+                    .size(100.dp)
+                    .align(Alignment.Center))
+            }
+            items.loadState.refresh is LoadState.Error -> ErrorDialog()
+            items.loadState.append is LoadState.Error -> ErrorDialog()
+        }
+    }
+    PhotoScreen(items)
 }
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun PhotoScreen(photoScreenState: PhotoScreenState) {
+fun PhotoScreen(photos: LazyPagingItems<Photo>) {
     var showInfo by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Adaptive(200.dp)
         ) {
-            items(key = { item -> item.key }, items = photoScreenState.photos) { photo ->
-                ExpandableInfoPhoto(
-                    url = photo.url,
-                    expanded = showInfo,
-                    ownerName = photo.ownerName,
-                    tags = photo.tags,
-                    userIconUrl = photo.userIconUrl
-                )
+            items(
+                count = photos.itemCount,
+                key = photos.itemKey(),
+                contentType = photos.itemContentType()
+            )
+            { index ->
+                val photo = photos[index]
+                
+                if (photo != null) {
+                    ExpandableInfoPhoto(
+                        url = stringResource(
+                            id = R.string.photoUrl,
+                            photo.server,
+                            photo.id,
+                            photo.secret
+                        ),
+                        expanded = showInfo,
+                        ownerName = photo.ownerName,
+                        tags = photo.tags,
+                        userIconUrl = if (photo.iconServer > 0) {
+                            stringResource(
+                                id = R.string.buddyIcon,
+                                photo.iconFarm,
+                                photo.iconServer,
+                                photo.owner
+                            )
+                        } else {
+                            stringResource(id = R.string.noBuddyIcon)
+                        }
+                    )
+                }
             }
         }
 
@@ -77,7 +119,7 @@ fun PhotoScreen(photoScreenState: PhotoScreenState) {
             containerColor = DarkLateGray,
             onClick = { showInfo = !showInfo }
         ) {
-            Text(text = "i", color = Color.White, fontSize = 18.sp)
+            Text(text = stringResource(id = R.string.info), color = Color.White, fontSize = 18.sp)
         }
     }
 }
@@ -90,13 +132,15 @@ fun ExpandableInfoPhoto(
     ownerName: String,
     tags: String
 ) {
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .animateContentSize(
-            animationSpec = tween(
-                easing = LinearOutSlowInEasing
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .animateContentSize(
+                animationSpec = tween(
+                    easing = LinearOutSlowInEasing
+                )
             )
-        )) {
+    ) {
         SubcomposeAsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(url)
@@ -121,7 +165,7 @@ fun ExpandableInfoPhoto(
                 .wrapContentHeight()
         )
 
-        if(expanded) {
+        if (expanded) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 SubcomposeAsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
@@ -143,7 +187,7 @@ fun ExpandableInfoPhoto(
                 )
             }
 
-            if(!tags.isNullOrEmpty()) {
+            if (!tags.isNullOrEmpty()) {
                 Text(
                     text = "Tags: $tags",
                     color = Color.White,
@@ -156,4 +200,30 @@ fun ExpandableInfoPhoto(
             }
         }
     }
+}
+
+@Composable
+fun ErrorDialog() {
+    val openDialog = remember { mutableStateOf(false)  }
+
+    AlertDialog(
+        onDismissRequest = {
+            openDialog.value = false
+        },
+        title = {
+            Text(text = stringResource(id = R.string.errorDialogTitle))
+        },
+        text = {
+            Text(stringResource(id = R.string.errorDialogMessage))
+        },
+        confirmButton = {
+            Button(
+
+                onClick = {
+                    openDialog.value = false
+                }) {
+                Text(stringResource(id = R.string.ok))
+            }
+        }
+    )
 }

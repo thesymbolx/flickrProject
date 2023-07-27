@@ -9,7 +9,9 @@ interface PhotoEndpoints {
     @GET(".")
     suspend fun getRecentPhotos(
         @Query("method") method: String = "flickr.photos.getRecent",
-        @Query("extras") extras: String = "url_sq, url_t, url_s, url_q, url_m, url_n, url_z, url_c, url_l, url_o, owner_name, tags, icon_server",
-        @Query("safe_search") safeSearch: Int = 1
+        @Query("extras") extras: String = "owner_name, tags, icon_server",
+        @Query("safe_search") safeSearch: Int = 1,
+        @Query("page") pageNo: Int,
+        @Query("per_page") perPage: Int
     ): Response<PhotosResponse>
 }
