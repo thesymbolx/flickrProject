@@ -16,4 +16,15 @@ class PhotoRepo @Inject constructor(
             pageNo = pageNo,
             perPage = perPage
         ).getNetworkResource()
+
+    suspend fun getPhotos(
+        pageNo: Int,
+        perPage: Int,
+        text: String,
+    ) =
+        photoEndpoints.getPhotos(
+            pageNo = pageNo,
+            perPage = perPage,
+            text = text
+        ).getNetworkResource()
 }

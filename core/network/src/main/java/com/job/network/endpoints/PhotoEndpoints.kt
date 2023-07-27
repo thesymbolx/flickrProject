@@ -14,4 +14,14 @@ interface PhotoEndpoints {
         @Query("page") pageNo: Int,
         @Query("per_page") perPage: Int
     ): Response<PhotosResponse>
+
+    @GET(".")
+    suspend fun getPhotos(
+        @Query("method") method: String = "flickr.photos.search",
+        @Query("extras") extras: String = "owner_name, tags, icon_server",
+        @Query("safe_search") safeSearch: Int = 1,
+        @Query("page") pageNo: Int,
+        @Query("per_page") perPage: Int,
+        @Query("text") text: String,
+    ): Response<PhotosResponse>
 }

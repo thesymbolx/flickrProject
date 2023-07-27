@@ -16,7 +16,11 @@ class PhotoDataSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Photo> {
         val nextPage = params.key ?: 1
 
-        return when (val response = photoRepo.getPopularPhotos(pageNo = nextPage, perPage = params.loadSize)) {
+        return when (val response = photoRepo.getPhotos(
+            pageNo = nextPage,
+            perPage = params.loadSize,
+            text = "flowers"
+        )) {
             is Resource.Empty -> LoadResult.Error(Exception(""))
             is Resource.Error -> LoadResult.Error(Exception(""))
             is Resource.Success -> {

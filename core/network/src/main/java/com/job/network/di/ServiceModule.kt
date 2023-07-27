@@ -11,7 +11,7 @@ import retrofit2.Retrofit
 @InstallIn(ViewModelComponent::class)
 object ServiceModule {
     @Provides
-    fun providePopularPhotos(
+    fun providePhotoServices(
         retrofit: Retrofit
     ) : PhotoEndpoints = retrofit.create(PhotoEndpoints::class.java)
 }
