@@ -44,12 +44,12 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.job.photos.photoSearch.PhotoVM
-import com.job.photos.R
 import com.job.ui.theme.DarkLateGray
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.job.network.models.Photo
+import com.job.photos.R
 import com.job.photos.utils.getBuddyUrl
 import com.job.photos.utils.getPhotoUrl
 import com.job.ui.theme.composables.ErrorDialog

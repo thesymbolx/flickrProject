@@ -1,0 +1,58 @@
+apply plugin: "com.android.library"
+apply plugin: "kotlin-kapt"
+
+android {
+    compileSdkVersion 33
+    namespace 'com.job.common'
+
+    defaultConfig {
+        minSdk 26
+        targetSdk 33
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+            )
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.3.2"
+    }
+}
+
+dependencies {
+    implementation libs.androidx.core.ktx
+    implementation platform(libs.kotlin.bom)
+    implementation libs.androidx.lifecycle.ktx
+
+    implementation libs.androidx.activity.compose
+    implementation libs.androidx.lifecycle.viewModelCompose
+    implementation platform(libs.androidx.compose.bom)
+    implementation libs.androidx.compose.ui
+    implementation libs.androidx.compose.ui.graphics
+    implementation libs.androidx.compose.ui.tooling.preview
+    implementation libs.androidx.compose.material3
+    implementation libs.androidx.hilt.navigation.compose
+    debugImplementation libs.androidx.compose.ui.tooling
+
+    testImplementation libs.junit4
+    testImplementation libs.bundles.test
+    androidTestImplementation libs.androidx.test.junit
+}
