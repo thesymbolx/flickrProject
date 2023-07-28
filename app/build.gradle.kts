@@ -52,6 +52,7 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:network"))
     implementation(project(":feature:photos"))
+    implementation(project(":core:common"))
 
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.kotlin.bom))

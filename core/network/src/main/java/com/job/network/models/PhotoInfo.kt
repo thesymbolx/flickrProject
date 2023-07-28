@@ -10,8 +10,7 @@ data class PhotoInfo(
     val server: String,
     val owner: Owner,
     val title: Title,
-    val dates: Dates,
-    val urls: Urls
+    val dates: Dates
 )
 
 data class Owner (
@@ -21,10 +20,7 @@ data class Owner (
     var location   : String?,
     @Json(name = "iconserver") var iconServer : String?,
     @Json(name = "iconfarm"  ) var iconFarm   : Int?,
-    @Json(name = "path_alias") var pathAlias  : String?
 )
-
-data class Urls(val url: List<PhotoUrl>)
 
 data class PhotoUrl(
     @Json(name = "_content") val content: String

@@ -44,6 +44,7 @@ android {
 dependencies {
     implementation(project(":core:network"))
     implementation(project(":core:ui"))
+    implementation(project(":core:common"))
 
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.kotlin.bom))
@@ -56,6 +57,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.hilt.navigation.compose)
+    testImplementation(project(mapOf("path" to ":core:common")))
+    testImplementation(project(mapOf("path" to ":core:common")))
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.glide.compose)
     implementation(libs.coil.compose)
@@ -68,9 +71,7 @@ dependencies {
     implementation(libs.bundles.paging)
 
     testImplementation(libs.junit4)
+    testImplementation(libs.bundles.test)
     androidTestImplementation(libs.androidx.test.junit)
-    androidTestImplementation(libs.androidx.test.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test)
-    debugImplementation(libs.androidx.compose.ui.testManifest)
+    testImplementation(project(":core:common"))
 }

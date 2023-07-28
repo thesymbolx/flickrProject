@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.job.common.IoDispatcher
 import com.job.network.Resource
 import com.job.network.models.PhotoInfo
 import com.job.photos.photoSearch.PhotoRepo
@@ -14,6 +15,8 @@ import com.job.photos.userPhotos.ui.UserPhoto
 import com.job.photos.utils.ScreenState
 import com.job.photos.utils.getPhotoUrl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.ZoneOffset
@@ -26,7 +29,8 @@ import javax.inject.Inject
 class UserPhotoVM @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val photoRepo: PhotoRepo,
-    private val peopleRepo: PeopleRepo
+    private val peopleRepo: PeopleRepo,
+    @IoDispatcher private val ioDispatchers: CoroutineDispatcher
 ) : ViewModel() {
     private val photoId: String = checkNotNull(savedStateHandle["photoId"])
     var userPhotoScreenState by mutableStateOf(PhotoInfoScreenState())
@@ -35,7 +39,7 @@ class UserPhotoVM @Inject constructor(
         getPhotoInfo()
     }
 
-    private fun getPhotoInfo() = viewModelScope.launch {
+    private fun getPhotoInfo() = viewModelScope.launch(ioDispatchers) {
         when(val result = photoRepo.getPhotoInfo(photoId)) {
             is Resource.Empty -> userPhotoScreenState.copy(
                 screenState = ScreenState.Error
@@ -63,7 +67,7 @@ class UserPhotoVM @Inject constructor(
         }
     }
 
-    private fun getUserPhotos(userId: String) = viewModelScope.launch {
+    private fun getUserPhotos(userId: String) = viewModelScope.launch(ioDispatchers) {
         userPhotoScreenState = when(val result = peopleRepo.getUsersPhotos(userId)) {
             is Resource.Empty -> userPhotoScreenState.copy(
                 screenState = ScreenState.Error
