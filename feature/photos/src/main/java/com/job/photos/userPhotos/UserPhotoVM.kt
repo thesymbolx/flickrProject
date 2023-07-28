@@ -15,8 +15,12 @@ import com.job.photos.utils.ScreenState
 import com.job.photos.utils.getPhotoUrl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
+
 
 @HiltViewModel
 class UserPhotoVM @Inject constructor(
@@ -50,7 +54,7 @@ class UserPhotoVM @Inject constructor(
                 title = title.content,
                 realName = owner.realname,
                 taken = dates.taken,
-                postedOn = "dates.posted"
+                postedOn = formattedPostTime(dates.posted)
             )
 
             owner.nsid?.let {
@@ -76,4 +80,10 @@ class UserPhotoVM @Inject constructor(
         }
     }
 
+    private fun formattedPostTime(datePosted: Long) : String {
+        val instant = Instant.ofEpochSecond(datePosted)
+        val date = ZonedDateTime.ofInstant(instant, ZoneOffset.systemDefault())
+        val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm:ss z")
+        return date.format(formatter)
+    }
 }

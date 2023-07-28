@@ -1,21 +1,18 @@
 package com.job.photos.userPhotos.ui
 
-import android.util.Log
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
@@ -47,28 +44,30 @@ fun UserPhotoScreen(userPhotoInfoScreenState: PhotoInfoScreenState) {
             )
         }
 
-        item {
-            Text(
-                text = userPhotoInfoScreenState.title,
-                color = Color.White,
-                modifier = Modifier.padding(top = 8.dp, start = 16.dp)
-            )
-        }
-
-        userPhotoInfoScreenState.realName?.let {
+        userPhotoInfoScreenState.title?.let { title ->
             item {
                 Text(
-                    text = userPhotoInfoScreenState.realName,
+                    text = "${stringResource(id = R.string.title)} $title",
                     color = Color.White,
                     modifier = Modifier.padding(top = 8.dp, start = 16.dp)
                 )
             }
         }
 
-        userPhotoInfoScreenState.taken?.let {
+        userPhotoInfoScreenState.realName?.let { realName ->
             item {
                 Text(
-                    text = userPhotoInfoScreenState.taken,
+                    text = "${stringResource(id = R.string.realName)} $realName",
+                    color = Color.White,
+                    modifier = Modifier.padding(top = 8.dp, start = 16.dp)
+                )
+            }
+        }
+
+        userPhotoInfoScreenState.taken?.let {  taken ->
+            item {
+                Text(
+                    text = "${stringResource(id = R.string.takenOn)} $taken",
                     color = Color.White,
                     modifier = Modifier.padding(top = 8.dp, start = 16.dp)
                 )
@@ -76,10 +75,10 @@ fun UserPhotoScreen(userPhotoInfoScreenState: PhotoInfoScreenState) {
         }
 
 
-        userPhotoInfoScreenState.postedOn?.let {
+        userPhotoInfoScreenState.postedOn?.let { postedOn ->
             item {
                 Text(
-                    text = userPhotoInfoScreenState.postedOn,
+                    text = "${stringResource(id = R.string.postedOn)} $postedOn",
                     color = Color.White,
                     modifier = Modifier.padding(top = 8.dp, start = 16.dp)
                 )
@@ -101,6 +100,4 @@ fun UserPhotoScreen(userPhotoInfoScreenState: PhotoInfoScreenState) {
             )
         }
     }
-
-
 }

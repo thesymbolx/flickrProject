@@ -50,6 +50,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.job.network.models.Photo
+import com.job.photos.utils.getBuddyUrl
 import com.job.photos.utils.getPhotoUrl
 import com.job.ui.theme.composables.ErrorDialog
 
@@ -61,10 +62,13 @@ fun PhotoSearchScreen(photoVM: PhotoVM, findNavController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
         when {
             items.loadState.refresh is LoadState.Loading -> {
-                CircularProgressIndicator(modifier = Modifier
-                    .size(100.dp)
-                    .align(Alignment.Center))
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .size(100.dp)
+                        .align(Alignment.Center)
+                )
             }
+
             items.loadState.refresh is LoadState.Error -> ErrorDialog()
             items.loadState.append is LoadState.Error -> ErrorDialog()
         }
@@ -93,7 +97,7 @@ fun PhotoSearchScreen(
             )
             { index ->
                 val photo = photos[index]
-                
+
                 if (photo != null) {
                     ExpandableInfoPhoto(
                         imageId = photo.id,
@@ -105,16 +109,11 @@ fun PhotoSearchScreen(
                         expanded = showInfo,
                         ownerName = photo.ownerName,
                         tags = photo.tags,
-                        userIconUrl = if (photo.iconServer > 0) {
-                            stringResource(
-                                id = R.string.buddyIcon,
-                                photo.iconFarm,
-                                photo.iconServer,
-                                photo.owner
-                            )
-                        } else {
-                            stringResource(id = R.string.noBuddyIcon)
-                        },
+                        userIconUrl = getBuddyUrl(
+                            photo.iconFarm,
+                            photo.iconServer,
+                            photo.owner
+                        ),
                         imageClick = imageClick
                     )
                 }
@@ -173,7 +172,8 @@ fun ExpandableInfoPhoto(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight().clickable {
+                .wrapContentHeight()
+                .clickable {
                     imageClick(imageId)
                 }
         )

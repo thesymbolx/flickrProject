@@ -1,6 +1,7 @@
 <resources>
-    <string name="buddyIcon">"https://farm%s.staticflickr.com/%s/buddyicons/%s.jpg"</string>
-    <string name="noBuddyIcon"> "https://www.flickr.com/images/buddyicon.gif"</string>
-
     <string name="info">i</string>
+    <string name="title">Title:</string>
+    <string name="realName">Real Name:</string>
+    <string name="takenOn">Taken On:</string>
+    <string name="postedOn">Posted On:</string>
 </resources>
