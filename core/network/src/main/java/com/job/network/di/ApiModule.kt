@@ -1,7 +1,7 @@
 package com.job.network.di
 
-import com.job.network.FLICKR_ENDPOINT_URL
-import com.job.network.FLICKR_KEY
+import com.job.network.BASE_ENDPOINT_URL
+import com.job.network.API_KEY
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -35,16 +35,9 @@ class ApiModule {
     fun okHttpInterceptor() : Interceptor =
         Interceptor {
             val original: Request = it.request()
-            val originalHttpUrl: HttpUrl = original.url
-
-            val url = originalHttpUrl.newBuilder()
-                .addQueryParameter("api_key", FLICKR_KEY)
-                .addQueryParameter("format", "json")
-                .addQueryParameter("nojsoncallback", "?")
-                .build()
 
             val requestBuilder: Request.Builder = original.newBuilder()
-                .url(url)
+                .addHeader("Authorization", API_KEY)
 
             val request: Request = requestBuilder.build()
             it.proceed(request)
@@ -56,7 +49,7 @@ class ApiModule {
         moshi: Moshi
     ): Retrofit =
         Retrofit.Builder()
-            .baseUrl(FLICKR_ENDPOINT_URL)
+            .baseUrl(BASE_ENDPOINT_URL)
             .client(okHttp)
             .addConverterFactory(MoshiConverterFactory.create(moshi).asLenient())
             .build()

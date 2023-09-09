@@ -16,4 +16,5 @@ android {
 dependencies {
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.compiler)
+    implementation(libs.bundles.test)
 }

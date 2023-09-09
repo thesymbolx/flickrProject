@@ -17,10 +17,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.job.jobApplication.R
-import com.job.photos.photoSearch.PhotoVM
-import com.job.photos.photoSearch.ui.PhotoSearchScreen
-import com.job.photos.userPhotos.UserPhotoVM
-import com.job.photos.userPhotos.ui.UserPhotoScreen
+import com.job.devices.photoSearch.DevicesVM
+import com.job.devices.photoSearch.ui.DevicesScreen
 import com.job.ui.theme.DarkLateGray
 import com.job.ui.theme.Grayscale
 import com.job.ui.theme.JobApplicationTheme
@@ -45,17 +43,12 @@ fun MainActivityScreen() {
             Surface(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(it),
-                color = Grayscale
+                    .padding(it)
             ) {
                 NavHost(navController = navController, startDestination = "photoSearch") {
                     composable("photoSearch") {
-                        val viewModel = hiltViewModel<PhotoVM>()
-                        PhotoSearchScreen(viewModel, navController)
-                    }
-                    composable("userPhoto/{photoId}") {
-                        val viewModel = hiltViewModel<UserPhotoVM>()
-                        UserPhotoScreen(viewModel)
+                        val viewModel = hiltViewModel<DevicesVM>()
+                        DevicesScreen(viewModel)
                     }
                 }
             }

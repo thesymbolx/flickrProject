@@ -1,4 +1,4 @@
-package com.job.photos.photoSearch
+package com.job.devices.photoSearch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,15 +6,16 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.job.network.models.Device
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
-class PhotoVM @Inject constructor(
-    private val photoDataSource: PhotoDataSource
+class DevicesVM @Inject constructor(
+    private val deviceDataSource: DeviceDataSource
 ) : ViewModel() {
-    val photos: Flow<PagingData<com.job.network.models.Photo>> = Pager(PagingConfig(pageSize = 250)) {
-        photoDataSource
+    val devices: Flow<PagingData<Device>> = Pager(PagingConfig(pageSize = 50)) {
+        deviceDataSource
     }.flow.cachedIn(viewModelScope)
 }

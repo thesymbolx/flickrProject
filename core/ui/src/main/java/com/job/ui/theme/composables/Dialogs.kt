@@ -25,7 +25,6 @@ fun ErrorDialog() {
         },
         confirmButton = {
             Button(
-
                 onClick = {
                     openDialog.value = false
                 }) {

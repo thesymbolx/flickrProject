@@ -1,5 +1,4 @@
 package com.job.network
 
-const val FLICKR_ENDPOINT_URL = "https://api.flickr.com/services/rest/"
-const val FLICKR_KEY = "799e603211131c935181e6633b6bcf40"
-const val FLICKR_SECRET = "a1eebeed075a5ed1"
+const val BASE_ENDPOINT_URL = "https://hiring.iverify.io/api/ "
+const val API_KEY = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6ImlWZXJpZnkiLCJ1c2VySWQiOjYyLCJleHAiOjE3MjUxMjg5Mjl9.Vzy-WfuNVplsuv9yuSgPQQNivRWmtywM144j4BcScPs"

@@ -1,4 +1,4 @@
-package com.job.photos.utils
+package com.job.devices.utils
 
 sealed class ScreenState {
     object Success : ScreenState()
